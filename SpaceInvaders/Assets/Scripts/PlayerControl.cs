@@ -8,11 +8,12 @@ public class PlayerControl : MonoBehaviour
     float offset = 0.5f;
     public GameObject bulletPrefab;
     //public GameObject gameManager;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -49,6 +50,7 @@ public class PlayerControl : MonoBehaviour
 
     void Shoot()
     {
+        animator.SetTrigger("shoot");
         GameObject bullet = Instantiate(bulletPrefab, new Vector2(transform.position[0], transform.position[1] + offset), Quaternion.identity);
         bullet.GetComponent<BulletControl>().dir = 1;
     }
@@ -57,7 +59,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "bullet") {
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            animator.SetTrigger("die");
+            Destroy(gameObject, 0.75f);
         }
     }
 }

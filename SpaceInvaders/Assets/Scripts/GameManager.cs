@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
 
     GameObject player;
 
-    int score;
-    static int highScore;
+    public static int score;
+    public static int highScore;
     int lives = 3;
 
     int gridSizeRow = 5;
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.score = 0;
         movesLeft = movesMax;
         numEnemies = gridSizeRow * gridSizeColumn;
 
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour
         gameText.text = "Lives: " + lives.ToString()+ " | Score: " + score.ToString("0000") + " | High Score: " + highScore.ToString("0000");
 
         if (displayGameOver) {
+            SceneTraversal.LoadCredits();
             restartText.text = "Game Over\nPress R to Restart";
         }
 
@@ -118,8 +120,8 @@ public class GameManager : MonoBehaviour
             lives--;
         }
 
-        if ((player == null && lives == 0) || numEnemies == 0) {
-            displayGameOver = true;
+        if ((player == null && lives == 0) || numEnemies == 0 && !displayGameOver) {
+            gameOver();
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
@@ -187,7 +189,7 @@ public class GameManager : MonoBehaviour
 
     public void enemyDestroyed(int score) {
         numEnemies--;
-        this.score += score;
+        GameManager.score += score;
         moveTime -= 0.035f;
         assignShoot();
     }
@@ -198,8 +200,11 @@ public class GameManager : MonoBehaviour
             for (int y = 0; y < gridSizeRow; y++)
             {
                 if (enemyGrid[y][x] != null) {
-                    enemyGrid[y][x].GetComponent<EnemyControl>().canShoot = true;
-                    break;
+                    if (!enemyGrid[y][x].GetComponent<EnemyControl>().dying)
+                    {
+                        enemyGrid[y][x].GetComponent<EnemyControl>().canShoot = true;
+                        break;
+                    }
                 }
             }
         }
@@ -212,5 +217,6 @@ public class GameManager : MonoBehaviour
         }
 
         displayGameOver = true;
+        //SceneTraversal.LoadStart();
     }
 }

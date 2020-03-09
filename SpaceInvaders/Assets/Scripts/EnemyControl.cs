@@ -10,12 +10,16 @@ public class EnemyControl : MonoBehaviour
     public GameObject gameManager;
     public GameObject bulletPrefab;
     public bool canShoot = false;
+    public bool dying = false;
 
     public int enemyScore = 10;
+
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         angCount = Random.Range(0f, 360f);
         StartCoroutine("ShootEvent");
     }
@@ -30,6 +34,8 @@ public class EnemyControl : MonoBehaviour
             {
                 GameObject bullet = Instantiate(bulletPrefab, new Vector2(transform.position[0], transform.position[1] + offset), Quaternion.identity);
                 bullet.GetComponent<BulletControl>().dir = -1;
+                animator.SetTrigger("shoot");
+
             }
         }
     }
@@ -51,9 +57,13 @@ public class EnemyControl : MonoBehaviour
         if (collision.gameObject.tag == "bullet")
         {
             Debug.Log("HIT");
+            dying = true;
             gameManager.GetComponent<GameManager>().enemyDestroyed(enemyScore);
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            animator.SetTrigger("die");
+            Destroy(gameObject, 0.75f);
+       
+            //Destroy(gameObject);
         }
 
         if (collision.gameObject.tag == "breakable")

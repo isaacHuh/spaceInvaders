@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7746857139659819171, guid: c413b2b1923a94108a3f3d9bcc874aba,
+  m_Sprite: {fileID: 1777901606445201792, guid: cac030e4450734cf1b12c231fc21d4a3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 8051798243246167274}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 91712b09a88ca4fdc879b4f2750f33f3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8820e78024c4d41acbbaa0796024148d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -120,6 +120,8 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   bulletPrefab: {fileID: 0}
   canShoot: 0
+  dying: 0
+  enemyScore: 10
 --- !u!61 &3988081694174431525
 BoxCollider2D:
   m_ObjectHideFlags: 0
